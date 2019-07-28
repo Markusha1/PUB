@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="toolBar">#fdb200</color>
+    <color name="uptoolBar">#cc8400</color>
+    <color name="background">#fec400</color>
+    <color name="text">#FFFFFF</color>
+    <color name="text2">#666666</color>
+    <color name="disable_button">#fdb200</color>
+    <color name="buttons">#12000000</color>
+    <color name="enabled_button">#fec400</color>
+    <color name="category">#fdd600</color>
+    <color name="errorEdit">#FF0000</color>
+    <color name="emptyChar">#CECECE</color>
+</resources>

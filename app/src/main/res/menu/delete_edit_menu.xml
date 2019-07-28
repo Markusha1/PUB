@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/delete_list_item"
+        android:title="@string/delete_item_list" />
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/edit_list_item"
+        android:title="@string/edit_item_list" />
+</menu>
