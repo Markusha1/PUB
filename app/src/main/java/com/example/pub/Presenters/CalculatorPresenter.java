@@ -7,7 +7,7 @@ import com.example.pub.DI.DaggerDetailComponent;
 import com.example.pub.DI.DetailComponent;
 import com.example.pub.Models.Calculator;
 import com.example.pub.Models.Detail;
-import com.example.pub.Views.CalculateView;
+import com.example.pub.views.CalculateView;
 
 
 import javax.inject.Inject;
@@ -98,8 +98,7 @@ public class CalculatorPresenter extends MvpPresenter<CalculateView> {
 
     public void equal_Click(){
         calculator.equal_Click();
-        if (calculator.getResult()%1==0.0) getViewState().setSign(String.valueOf(Math.round(calculator.getResult())));
-        else getViewState().setSign(String.valueOf(calculator.getResult()));
+        getViewState().setSign(String.valueOf(calculator.getResult()));
     }
     public void add_Click(String s){
         getViewState().showOperator(calculator.add_Click(s));
@@ -118,17 +117,10 @@ public class CalculatorPresenter extends MvpPresenter<CalculateView> {
         getViewState().setSign("");
     }
     public void clean_short_Click(String s){
-        if (s.length() <= 1) {
-            getViewState().setSign("");
-            calculator.clean_short_Click();
-        }
-        else if (s.length() == 2 && s.contains("-")){
-            getViewState().setSign("");
-        }
-            else {
-            s = s.substring(0, s.length() - 1);
-            getViewState().setSign(s);
-            }
+         if (s.length() == 2 && s.contains("-")){
+             getViewState().setSign("");
+         }
+         getViewState().setSign(calculator.clean_short_Click(s));
     }
     public void clean_long_Click(){
         getViewState().setSign("");

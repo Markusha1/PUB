@@ -4,8 +4,8 @@ package com.example.pub.Presenters;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.pub.Models.Categories;
-import com.example.pub.Views.CategoryView;
-import com.example.pub.Views.ViewHolderInt;
+import com.example.pub.views.CategoryView;
+import com.example.pub.views.ViewHolderInt;
 
 @InjectViewState
 public class CategoryPresenter extends MvpPresenter<CategoryView> {

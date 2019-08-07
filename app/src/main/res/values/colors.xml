@@ -13,5 +13,21 @@
     <color name="enabled_button">#fec400</color>
     <color name="category">#fdd600</color>
     <color name="errorEdit">#FF0000</color>
-    <color name="emptyChar">#CECECE</color>
+    <color name="base_item">#FFE0B2</color>
+    <color name="primary_text">#212121</color>
+    <color name="pie_one">#008744</color>
+    <color name="pie_two">#0057e7</color>
+    <color name="pie_three">#d62d20</color>
+    <color name="pie_four">#7289da</color>
+    <color name="pie_five">#99aab5</color>
+    <color name="pie_six">#96ceb4</color>
+    <color name="pie_seven">#ff6f69</color>
+    <color name="pie_eight">#800080	</color>
+    <color name="pie_nine">#d896ff</color>
+    <color name="pie_ten">#74d600</color>
+    <color name="pie_eleven">#ff00a9</color>
+    <color name="pie_twelve">#771414</color>
+    <color name="pie_thirteen">#d0b783</color>
+
+
 </resources>

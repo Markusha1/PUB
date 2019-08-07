@@ -1,8 +1,9 @@
 package com.example.pub.DI;
 
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.Update;
+
 import android.content.Context;
+
+import androidx.room.Room;
 
 import com.example.pub.DataBase.AppDataBase;
 import com.example.pub.DataBase.BudgetDao;
@@ -15,11 +16,6 @@ import dagger.Provides;
 
 @Module
 public class RoomModule {
-//    Context mContext;
-
-//    public RoomModule(Context context){
-//        mContext = context;
-//    }
 
     @Singleton
     @Provides

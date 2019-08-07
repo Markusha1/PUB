@@ -2,7 +2,6 @@ package com.example.pub.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,12 +11,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.pub.Models.Detail;
 import com.example.pub.Presenters.CalculatorPresenter;
 import com.example.pub.R;
-import com.example.pub.Views.CalculateView;
+import com.example.pub.views.CalculateView;
 
 
 public class CalculActivity extends MvpAppCompatActivity implements CalculateView, View.OnClickListener, View.OnLongClickListener {

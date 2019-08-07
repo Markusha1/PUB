@@ -3,26 +3,24 @@ package com.example.pub.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-
 import com.example.pub.Models.Detail;
-import com.example.pub.Models.DetailListRepository;
 import com.example.pub.Presenters.DetailPresenter;
 import com.example.pub.R;
 import com.example.pub.RecyclerView.DetailAdapter;
-import com.example.pub.Views.DetailView;
+import com.example.pub.views.DetailView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -33,8 +31,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.inject.Inject;
-
 
 public class DetailActivity extends MvpAppCompatActivity implements DetailView {
     private static final int REQUEST_BUDGET = 100;
@@ -42,8 +38,7 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
     private RecyclerView mRecyclerView;
     private DetailAdapter adapter;
     private PieChart pieChart;
-    @Inject
-    public DetailListRepository mRepository;
+    private int[] colors = {R.color.pie_one, R.color.pie_two,R.color.pie_three,R.color.pie_four,R.color.pie_five,R.color.pie_six,R.color.pie_seven,R.color.pie_eight,R.color.pie_nine,R.color.pie_ten,R.color.pie_eleven,R.color.pie_twelve,R.color.pie_thirteen,R.color.colorAccent,R.color.colorPrimary,R.color.colorPrimaryDark,R.color.background,R.color.text2,};
     @InjectPresenter
     public DetailPresenter presenter;
     @ProvidePresenter
@@ -110,15 +105,11 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setTransparentCircleRadius(30f);
         pieChart.animateY(1000, Easing.EaseInOutCirc);
+        pieChart.setDescription(null);
         if (list.size() == 0) {
-            Description d = new Description();
-            d.setText("Нет данных");
-            d.setTextSize(40f);
-            pieChart.setDescription(d);
-            pieChart.getDescription().setPosition(580,720);
+            pieChart.setCenterText("Нет данных");
             categories.add(new PieEntry(1, ""));
             PieDataSet dataSet = new PieDataSet(categories, "");
-            dataSet.setColors(R.color.emptyChar);
             PieData data = new PieData(dataSet);
             data.setDrawValues(false);
             pieChart.setData(data);
@@ -131,12 +122,11 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
             PieDataSet dataSet = new PieDataSet(categories, "Категории");
             dataSet.setSliceSpace(3);
             dataSet.setSelectionShift(5);
-            dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+            dataSet.setColors(ColorTemplate.createColors(getResources(), colors));
             PieData data = new PieData(dataSet);
             data.setDrawValues(false);
             data.setValueTextColor(Color.WHITE);
             data.setValueTextSize(39f);
-            pieChart.getDescription().setEnabled(false);
             pieChart.setData(data);
         }
         }
@@ -191,7 +181,5 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
             }
             return counter;
         }
-
-
     }
 

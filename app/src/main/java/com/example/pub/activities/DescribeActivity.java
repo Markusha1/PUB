@@ -3,22 +3,17 @@ package com.example.pub.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,6 +25,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -44,7 +45,7 @@ import com.example.pub.Utilities.Constants;
 import com.example.pub.Utilities.FetchAddressIntentService;
 import com.example.pub.Utilities.GpsSettingsDialog;
 import com.example.pub.Utilities.PhotoDialog;
-import com.example.pub.Views.DescribeView;
+import com.example.pub.views.DescribeView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -57,6 +58,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -256,6 +258,7 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
     public void loadPhoto(String uri) {
         mPhoto.setImageURI(Uri.parse((uri)));
         currentPhotoPath = uri;
+        TakePhotoButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -282,7 +285,7 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
 
     public File createFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", new Locale("ru", "RU")).format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Camera/");
         File image = File.createTempFile(
@@ -326,7 +329,7 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 mPhoto.setImageURI(Uri.parse(currentPhotoPath));
                 galleryAddPic();
-                TakePhotoButton.setEnabled(false);
+                TakePhotoButton.setVisibility(View.GONE);
             } else if (requestCode == REQUEST_CATEGORY) {
                 presenter.detailCategory((String) data.getSerializableExtra("category"));
             }
@@ -336,7 +339,6 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
             }
         }
     }
-
     DatePickerDialog.OnDateSetListener d = (view, year, monthOfYear, dayOfMonth) -> {
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, monthOfYear);
@@ -363,11 +365,12 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
     private void checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this, permission[3]) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, permission[4]) == PackageManager.PERMISSION_GRANTED){
-            if(!Settings.Secure.getString(getContentResolver(), Settings.Secure.ALLOWED_GEOLOCATION_ORIGINS).contains("gps")){
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                 DialogFragment dialog = new GpsSettingsDialog();
                 dialog.show(getSupportFragmentManager(), "gps_settings");
             }
-            presenter.geoOnClick();
+            else presenter.geoOnClick();
         }
         else ActivityCompat.requestPermissions(this, permission, 238);
     }
@@ -448,8 +451,5 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
     protected void onStart() {
         super.onStart();
         mClient.connect();
-        if (mPhoto.getDrawable() != null){
-            TakePhotoButton.setEnabled(false);
-        }
     }
 }

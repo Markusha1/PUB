@@ -1,13 +1,16 @@
 package com.example.pub.RecyclerView;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pub.Models.Budget;
 import com.example.pub.Presenters.BudgetListPresenter;
@@ -41,28 +44,6 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
         holder.TitleView.setText(budget.getBudgetText());
         holder.MoneyView.setText(budget.getBudgetMoney().concat("\u20BD"));
         holder.DateView.setText(budget.getBudgetDate());
-        holder.itemView.setOnLongClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
-            popupMenu.inflate(R.menu.delete_edit_menu);
-            popupMenu.setOnMenuItemClickListener(item -> {
-                Budget budget1 = mBudgets.get(holder.getAdapterPosition());
-                switch (item.getItemId()) {
-                    case R.id.delete:
-                        presenter.deleteBudget(budget1);
-                        mBudgets.remove(budget1);
-                        notifyItemRemoved(holder.getAdapterPosition());
-                        return true;
-                    case R.id.edit:
-                        Log.d(TAG, "onBindViewHolder: изменить ");
-                        presenter.editBudget(budget1);
-                        return true;
-                    default:
-                        return false;
-                }
-            });
-            popupMenu.show();
-            return true;
-        });
     }
 
     @Override
@@ -76,17 +57,20 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
         mBudgets = budgets;
     }
 
-    public class BudgetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class BudgetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView TitleView;
-        TextView MoneyView;
+        Button MoneyView;
         TextView DateView;
+        View Base;
 
         BudgetViewHolder(View v) {
             super(v);
             TitleView = v.findViewById(R.id.title);
             MoneyView = v.findViewById(R.id.cash);
             DateView = v.findViewById(R.id.time);
-            v.setOnClickListener(this);
+            Base = v.findViewById(R.id.base);
+            Base.setOnClickListener(this);
+            Base.setOnLongClickListener(this);
         }
 
         @Override
@@ -94,6 +78,29 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
             presenter.onClickBudget(mBudgets.get(getAdapterPosition()));
         }
 
+        @Override
+        public boolean onLongClick(View v) {
+            PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+            popupMenu.inflate(R.menu.delete_edit_menu);
+            popupMenu.setOnMenuItemClickListener(item -> {
+                Budget budget1 = mBudgets.get(getAdapterPosition());
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        presenter.deleteBudget(budget1);
+                        mBudgets.remove(budget1);
+                        notifyItemRemoved(getAdapterPosition());
+                        return true;
+                    case R.id.edit:
+                        Log.d(TAG, "onBindViewHolder: изменить ");
+                        presenter.editBudget(budget1);
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+            popupMenu.show();
+            return true;
+        }
     }
 }
 

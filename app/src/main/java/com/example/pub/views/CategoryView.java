@@ -1,4 +1,4 @@
-package com.example.pub.Views;
+package com.example.pub.views;
 
 import com.arellomobile.mvp.MvpView;
 

@@ -16,8 +16,8 @@ import com.example.pub.Models.Categories;
 import com.example.pub.Models.Detail;
 import com.example.pub.Models.DetailListRepository;
 import com.example.pub.R;
-import com.example.pub.Views.DetailView;
-import com.example.pub.Views.DetailViewHolder;
+import com.example.pub.views.DetailView;
+import com.example.pub.views.DetailViewHolder;
 
 import java.io.Serializable;
 import java.util.List;
@@ -123,7 +123,7 @@ public class DetailPresenter extends MvpPresenter<DetailView> {
         return mBudget.getBudgetText();
     }
 
-    public void setUpPieChart(){
+    private void setUpPieChart(){
         getViewState().showPieChart();
     }
 }

@@ -33,7 +33,7 @@ public interface CalculatorInt {
 
     String multi_Click(String s);
 
-    void clean_short_Click();
+    String clean_short_Click(String expression);
 
     void clean_long_Click();
 

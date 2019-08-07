@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -80,7 +80,7 @@
                 android:layout_alignParentStart="true"
                 android:ems="10"
                 android:hint="@string/money_budget"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingStart="16dp" />
 
             <TextView
@@ -103,6 +103,7 @@
 
     <Button
         android:id="@+id/save_button"
+        android:background="@drawable/custom_money_base"
         android:layout_width="120dp"
         android:layout_height="62dp"
         android:layout_marginStart="146dp"
@@ -114,4 +115,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/balance" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.ConstraintLayout>

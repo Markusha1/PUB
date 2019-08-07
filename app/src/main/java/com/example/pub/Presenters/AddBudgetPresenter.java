@@ -5,7 +5,7 @@ import android.content.Intent;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.pub.Models.Budget;
-import com.example.pub.Views.AddBudgetView;
+import com.example.pub.views.AddBudgetView;
 
 import java.util.Date;
 
@@ -27,16 +27,15 @@ public class AddBudgetPresenter extends MvpPresenter<AddBudgetView> {
         if (title.length() == 0){
             getViewState().showErrorTittle();
         }
-        else if (money.length() == 0){
-            mBudget.setBudgetText(title);
-            mBudget.setBudgetMoney("0");
-            mBudget.setBudgetDate(android.text.format.DateFormat.format("dd.MM.yy", new Date()).toString());
-            getViewState().saveBudget(mBudget);
-        }
         else {
-            mBudget.setBudgetText(title);
-            mBudget.setBudgetMoney(money);
+            mBudget.setBudgetText(title.substring(0, 1).toUpperCase().concat(title.substring(1)));
             mBudget.setBudgetDate(android.text.format.DateFormat.format("dd.MM.yy", new Date()).toString());
+            if (money.length() == 0) {
+                mBudget.setBudgetMoney("0");
+            }
+            else {
+                mBudget.setBudgetMoney(money);
+            }
             getViewState().saveBudget(mBudget);
         }
     }

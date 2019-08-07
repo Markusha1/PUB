@@ -10,7 +10,7 @@ import com.example.pub.DI.DaggerAppComponent;
 import com.example.pub.DI.RoomModule;
 import com.example.pub.Models.Budget;
 import com.example.pub.Models.BudgetListRepository;
-import com.example.pub.Views.BudgetListView;
+import com.example.pub.views.BudgetListView;
 
 import java.util.List;
 

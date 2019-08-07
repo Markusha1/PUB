@@ -6,7 +6,7 @@ import android.content.Context;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.pub.Models.Detail;
-import com.example.pub.Views.DescribeView;
+import com.example.pub.views.DescribeView;
 
 import java.io.File;
 

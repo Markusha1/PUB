@@ -120,14 +120,20 @@ public class Calculator implements CalculatorInt{
     }
 
     @Override
-    public void clean_short_Click() {
+    public String clean_short_Click(String s) {
+        expression = s;
         if (expression.length() <= 1) {
+            expression = "";
+            value = 1;
+        }
+        else if (s.length() == 2 && s.contains("-")) {
             expression = "";
             value = 1;
         }
         else {
             expression = expression.substring(0, expression.length() - 1);
         }
+        return expression;
     }
 
     @Override
@@ -141,6 +147,7 @@ public class Calculator implements CalculatorInt{
         if (digits.size() >= 2){
             while (digits.size() > 1) {
                 value = digits.pop();
+                try {
                 switch (operats.pop()) {
                     case "+":
                         result = value + digits.pop();
@@ -158,6 +165,9 @@ public class Calculator implements CalculatorInt{
                         result = value * digits.pop();
                         digits.push(result);
                         break;
+                        }
+                    } catch (ArithmeticException e){
+                    result = 0;
                 }
             }
         }

@@ -11,7 +11,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.pub.Models.Budget;
 import com.example.pub.Presenters.AddBudgetPresenter;
 import com.example.pub.R;
-import com.example.pub.Views.AddBudgetView;
+import com.example.pub.views.AddBudgetView;
 
 
 public class NewBudgetActivity extends MvpAppCompatActivity implements AddBudgetView {

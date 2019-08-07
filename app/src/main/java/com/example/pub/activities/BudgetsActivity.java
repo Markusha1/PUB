@@ -3,23 +3,22 @@ package com.example.pub.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-
-
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.pub.Models.Budget;
 import com.example.pub.Presenters.BudgetListPresenter;
 import com.example.pub.R;
 import com.example.pub.RecyclerView.BudgetAdapter;
-import com.example.pub.Views.BudgetListView;
+import com.example.pub.views.BudgetListView;
 
 import java.util.List;
+
 
 
 

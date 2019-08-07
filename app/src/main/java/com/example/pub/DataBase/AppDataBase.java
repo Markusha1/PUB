@@ -1,8 +1,8 @@
 package com.example.pub.DataBase;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
 
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
 import com.example.pub.Models.Budget;
 import com.example.pub.Models.Detail;
