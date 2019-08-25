@@ -36,7 +36,7 @@
     <string name="diff">-</string>
     <string name="multi">*</string>
     <string name="div">/</string>
-    <string name="title">PUB</string>
+    <string name="title">Название</string>
     <string name="rub">RUB</string>
     <string name="showMinusPlus">Показывает минус или плюс</string>
     <string name="note">Заметка</string>
@@ -55,5 +55,16 @@
     <string name="service_not_available">Сервис не отвечает</string>
     <string name="no_address_found">Адрес не найден</string>
     <string name="address_found">Адрес найден</string>
+    <string name="summ_is">Сумма </string>
+    <string name="achieve_to">Достичь к </string>
+    <string name="collected">Собрано</string>
+    <string name="replenish">Пополнить</string>
+    <string name="additional_replenish">Дополнительный взнос</string>
+    <string name="add_budget">Добавить бюджет</string>
+    <string name="add_goal">Добавить цель</string>
+    <string name="my_budgets">Мои бюджеты</string>
+    <string name="my_goals">Мои цели</string>
+    <string name="pub">Plan your budget</string>
+    <string name="empty_list">Список пуст</string>
     <string name="gps_settings">Похоже, у Вас отключен GPS, необходимо включить его, чтобы использовать геопозицию в приложении.</string>
 </resources>

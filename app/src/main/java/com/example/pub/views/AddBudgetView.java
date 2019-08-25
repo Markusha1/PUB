@@ -1,7 +1,7 @@
 package com.example.pub.views;
 
 import com.arellomobile.mvp.MvpView;
-import com.example.pub.Models.Budget;
+import com.example.pub.models.Budget;
 
 public interface AddBudgetView extends MvpView {
     void showErrorTittle();

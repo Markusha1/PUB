@@ -33,6 +33,11 @@ repositories {
 }
 
 dependencies {
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+    //PhotoView
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //Dagger
     implementation 'com.google.dagger:dagger-android:2.24'

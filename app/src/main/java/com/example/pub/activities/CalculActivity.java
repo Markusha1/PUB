@@ -15,18 +15,24 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.example.pub.Models.Detail;
-import com.example.pub.Presenters.CalculatorPresenter;
 import com.example.pub.R;
+import com.example.pub.models.Detail;
+import com.example.pub.presenters.CalculatorPresenter;
 import com.example.pub.views.CalculateView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class CalculActivity extends MvpAppCompatActivity implements CalculateView, View.OnClickListener, View.OnLongClickListener {
-    private Button IncomeButton;
-    private Button ConsumeButton;
-    private TextView ResultTextView;
-    private TextView ResultTextTooView;
-    private ImageView PlusMinusView;
+
+public class CalculActivity extends MvpAppCompatActivity implements CalculateView, View.OnLongClickListener {
+    @BindView(R.id.income_button) Button IncomeButton;
+    @BindView(R.id.consume_button) Button ConsumeButton;
+    @BindView(R.id.autofit) TextView ResultTextView;
+    @BindView(R.id.result_text_too) TextView ResultTextTooView;
+    @BindView(R.id.plus_minus) ImageView PlusMinusView;
+    @BindView(R.id.button_clean) ImageButton CleanButton;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     private boolean flag = false;
     @InjectPresenter
     CalculatorPresenter presenter;
@@ -36,11 +42,13 @@ public class CalculActivity extends MvpAppCompatActivity implements CalculateVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calculator_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+        consumeClick();
+        CleanButton.setOnLongClickListener(this);
+        ResultTextView.setAutoSizeTextTypeUniformWithConfiguration(40, 80, 3, TypedValue.COMPLEX_UNIT_SP);
+        ResultTextTooView.setText("");
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> cancelOnClick());
-        initialization();
-        ConsumeButton.callOnClick();
     }
 
     private void cancelOnClick(){
@@ -124,77 +132,10 @@ public class CalculActivity extends MvpAppCompatActivity implements CalculateVie
         ResultTextTooView.setText(s);
     }
 
-    public void initialization() {
-        Button numZero = findViewById(R.id.button_zero);
-        numZero.setOnClickListener(this);
-
-        Button numOne = findViewById(R.id.button_one);
-        numOne.setOnClickListener(this);
-
-        Button numTwo = findViewById(R.id.button_two);
-        numTwo.setOnClickListener(this);
-
-        Button numThree = findViewById(R.id.button_three);
-        numThree.setOnClickListener(this);
-
-        Button numFour = findViewById(R.id.button_four);
-        numFour.setOnClickListener(this);
-
-        Button numFive = findViewById(R.id.button_five);
-        numFive.setOnClickListener(this);
-
-        Button numSix = findViewById(R.id.button_six);
-        numSix.setOnClickListener(this);
-
-        Button numSeven = findViewById(R.id.button_seven);
-        numSeven.setOnClickListener(this);
-
-        Button numEight = findViewById(R.id.button_eight);
-        numEight.setOnClickListener(this);
-
-        Button numNine = findViewById(R.id.button_nine);
-        numNine.setOnClickListener(this);
-
-        Button dotButton = findViewById(R.id.button_dot);
-        dotButton.setOnClickListener(this);
-
-
-        ImageButton CleanButton = findViewById(R.id.button_clean);
-        CleanButton.setOnClickListener(this);
-        CleanButton.setOnLongClickListener(this);
-
-        Button EqualButton = findViewById(R.id.button_equal);
-        EqualButton.setOnClickListener(this);
-
-        Button AddButton = findViewById(R.id.button_add);
-        AddButton.setOnClickListener(this);
-
-        Button MinusButton = findViewById(R.id.button_substraction);
-        MinusButton.setOnClickListener(this);
-
-        Button DivButton = findViewById(R.id.button_division);
-        DivButton.setOnClickListener(this);
-
-
-        Button MultiButton = findViewById(R.id.button_multi);
-        MultiButton.setOnClickListener(this);
-
-
-        Button categorButton = findViewById(R.id.button_type);
-        categorButton.setOnClickListener(v -> presenter.describeDetail(ResultTextView.getText().toString()));
-        IncomeButton = findViewById(R.id.income_button);
-        IncomeButton.setOnClickListener(v -> presenter.incomeOnClick());
-        ConsumeButton = findViewById(R.id.consume_button);
-        ConsumeButton.setOnClickListener(v -> presenter.consumeOnClick());
-        ResultTextView = findViewById(R.id.autofit);
-        ResultTextView.setAutoSizeTextTypeUniformWithConfiguration(40, 80, 3, TypedValue.COMPLEX_UNIT_SP);
-        ResultTextTooView = findViewById(R.id.result_text_too);
-        ResultTextTooView.setText("");
-        PlusMinusView = findViewById(R.id.plus_minus);
-    }
-
-    @Override
-    public void onClick(View v) {
+    @OnClick({R.id.button_one, R.id.button_two, R.id.button_three, R.id.button_four, R.id.button_five, R.id.button_six,
+            R.id.button_seven, R.id.button_eight, R.id.button_nine, R.id.button_zero,R.id.button_dot, R.id.button_equal,
+            R.id.button_division, R.id.button_multi, R.id.button_add, R.id.button_substraction, R.id.button_clean})
+    void keyBoard(View v) {
         switch (v.getId()) {
             case R.id.button_zero:
                 presenter.zero_Click();
@@ -248,6 +189,20 @@ public class CalculActivity extends MvpAppCompatActivity implements CalculateVie
                 presenter.clean_short_Click(ResultTextView.getText().toString());
                 break;
         }
+    }
+    @OnClick(R.id.income_button)
+    void incomeClick(){
+        presenter.incomeOnClick();
+    }
+
+    @OnClick({R.id.consume_button})
+    void consumeClick(){
+        presenter.consumeOnClick();
+    }
+
+    @OnClick(R.id.button_type)
+    void categoryClick(){
+        presenter.describeDetail(ResultTextView.getText().toString());
     }
 
     @Override

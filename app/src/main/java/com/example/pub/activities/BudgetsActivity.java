@@ -4,6 +4,9 @@ package com.example.pub.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,22 +14,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.example.pub.Models.Budget;
-import com.example.pub.Presenters.BudgetListPresenter;
 import com.example.pub.R;
-import com.example.pub.RecyclerView.BudgetAdapter;
+import com.example.pub.models.Budget;
+import com.example.pub.models.Goal;
+import com.example.pub.presenters.BudgetListPresenter;
+import com.example.pub.recyclerView.BudgetAdapter;
 import com.example.pub.views.BudgetListView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class BudgetsActivity extends MvpAppCompatActivity implements BudgetListView {
     private static final String TAG = "MVPapplucation";
-    private RecyclerView recyclerView;
+    @BindView(R.id.recyclerview) RecyclerView recyclerView;
+    @BindView(R.id.fab) FloatingActionButton mFab;
+    @BindView(R.id.empty_list) ImageView picture;
+    @BindView(R.id.empty_text) TextView text;
     private BudgetAdapter adapter;
     private static final String BUDGETITEM = "newBudget";
+    private static final String GOALITEM = "newGoal";
     private static final String DETAILS = "details";
     private static final int REQUEST_BUDGET = 100;
     private List<Budget> mList;
@@ -34,23 +44,24 @@ public class BudgetsActivity extends MvpAppCompatActivity implements BudgetListV
     BudgetListPresenter presenter;
     @ProvidePresenter
     BudgetListPresenter providePresenter(){
-        return new BudgetListPresenter(getApplicationContext());
+        return new BudgetListPresenter(this);
     }
 
 
     @Override
     public void onCreate(Bundle savedStateInstance) {
         super.onCreate(savedStateInstance);
-        mList = presenter.loadBudgets();
         setContentView(R.layout.list_budgets);
-        recyclerView = findViewById(R.id.recyclerview);
+        ButterKnife.bind(this);
+        mList = presenter.loadBudgets();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BudgetAdapter(mList, presenter);
         recyclerView.setAdapter(adapter);
-        findViewById(R.id.fab).setOnClickListener(v -> {
+        mFab.setOnClickListener(v -> {
             Log.d(TAG, "Fab нажата");
             presenter.newBudgetScreen();
         });
+        presenter.checkList();
     }
 
     public void onResume(){
@@ -83,10 +94,23 @@ public class BudgetsActivity extends MvpAppCompatActivity implements BudgetListV
     }
 
     @Override
+    public void goToNewGoal(Goal goal){
+        Intent intent = new Intent(this, CategoryActivity.class);
+        intent.putExtra(GOALITEM, goal);
+        startActivityForResult(intent,REQUEST_BUDGET);
+    }
+
+    @Override
     public void edit(Budget budget) {
         Intent i = new Intent(this, NewBudgetActivity.class);
         i.putExtra(BUDGETITEM, budget);
         startActivityForResult(i, REQUEST_BUDGET);
+    }
+
+    @Override
+    public void showEmptyList(){
+        picture.setVisibility(View.VISIBLE);
+        text.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.example.pub;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import com.example.pub.Models.Budget;
+import com.example.pub.models.Budget;
 
 import java.util.Date;
 

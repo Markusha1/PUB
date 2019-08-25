@@ -3,7 +3,6 @@ package com.example.pub.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,10 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.example.pub.Models.Detail;
-import com.example.pub.Presenters.DetailPresenter;
 import com.example.pub.R;
-import com.example.pub.RecyclerView.DetailAdapter;
+import com.example.pub.models.Detail;
+import com.example.pub.presenters.DetailPresenter;
+import com.example.pub.recyclerView.DetailAdapter;
+import com.example.pub.utilities.Constants;
 import com.example.pub.views.DetailView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -31,11 +31,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class DetailActivity extends MvpAppCompatActivity implements DetailView {
+    @BindView(R.id.balance) TextView mBalance;
+    @BindView(R.id.init_balance) TextView mInitBalance;
+    @BindView(R.id.recycler_view2) RecyclerView mRecyclerView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     private static final int REQUEST_BUDGET = 100;
-    private TextView mBalance, mInitBalance;
-    private RecyclerView mRecyclerView;
     private DetailAdapter adapter;
     private PieChart pieChart;
     private int[] colors = {R.color.pie_one, R.color.pie_two,R.color.pie_three,R.color.pie_four,R.color.pie_five,R.color.pie_six,R.color.pie_seven,R.color.pie_eight,R.color.pie_nine,R.color.pie_ten,R.color.pie_eleven,R.color.pie_twelve,R.color.pie_thirteen,R.color.colorAccent,R.color.colorPrimary,R.color.colorPrimaryDark,R.color.background,R.color.text2,};
@@ -52,18 +57,15 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.budget_detail);
         findViewById(R.id.init_balance_view);
+        ButterKnife.bind(this);
         presenter.initBudget(getIntent().getSerializableExtra("details"));
-        mRecyclerView = findViewById(R.id.recycler_view2);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new DetailAdapter(presenter);
         mRecyclerView.setAdapter(adapter);
-        mBalance = findViewById(R.id.balance);
         mBalance.setText(presenter.getBalance());
-        mInitBalance = findViewById(R.id.init_balance);
         pieChart = findViewById(R.id.pie_chart);
         showPieChart();
         presenter.setInitBalances();
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         toolbar.setNavigationIcon(R.drawable.back_arrow);
@@ -129,31 +131,26 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
             data.setValueTextSize(39f);
             pieChart.setData(data);
         }
-        }
+    }
 
-        @Override
-        public void openDescription (Detail detail){
-            Intent i = new Intent(this, DescribeActivity.class);
-            i.putExtra("describedetail", detail);
-            startActivityForResult(i, REQUEST_BUDGET);
-        }
+    @Override
+    public void openDescription (Detail detail){
+        Intent i = new Intent(this, DescribeActivity.class);
+        i.putExtra(Constants.DESCRIPTION_DETAIL, detail);
+        startActivityForResult(i, REQUEST_BUDGET);
+    }
 
     @Override
     public void updateAdapter() {
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("pause", "onPause: ok");
-    }
 
     @Override
         protected void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
             super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == RESULT_OK && data != null) {
-                Detail d = (Detail) data.getSerializableExtra("newdetail");
+                Detail d = (Detail) data.getSerializableExtra(Constants.NEW_DETAIL);
                 boolean existed = false;
                 for (int i = 0; i < presenter.loadDetails().size(); i++) {
                     if (d.getId() == (presenter.loadDetails().get(i).getId())) {

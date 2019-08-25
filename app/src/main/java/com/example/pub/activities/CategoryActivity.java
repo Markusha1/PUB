@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.example.pub.Presenters.CategoryPresenter;
 import com.example.pub.R;
-import com.example.pub.RecyclerView.CategoryAdapter;
+import com.example.pub.presenters.CategoryPresenter;
+import com.example.pub.recyclerView.CategoryAdapter;
 import com.example.pub.views.CategoryView;
 
 
@@ -19,6 +19,7 @@ public class CategoryActivity extends MvpAppCompatActivity implements CategoryVi
     private CategoryAdapter adapter;
     @InjectPresenter
     public CategoryPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

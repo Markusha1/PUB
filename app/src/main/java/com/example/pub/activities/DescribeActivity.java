@@ -34,17 +34,18 @@ import androidx.fragment.app.DialogFragment;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.example.pub.DI.AppModule;
-import com.example.pub.DI.DaggerDescribeComponent;
-import com.example.pub.DI.DescribeComponent;
-import com.example.pub.DI.DescriptionModule;
-import com.example.pub.Models.Detail;
-import com.example.pub.Presenters.DescribePresenter;
 import com.example.pub.R;
-import com.example.pub.Utilities.Constants;
-import com.example.pub.Utilities.FetchAddressIntentService;
-import com.example.pub.Utilities.GpsSettingsDialog;
-import com.example.pub.Utilities.PhotoDialog;
+import com.example.pub.di.AppModule;
+import com.example.pub.di.DaggerDescribeComponent;
+import com.example.pub.di.DescribeComponent;
+import com.example.pub.di.DescriptionModule;
+import com.example.pub.models.Detail;
+import com.example.pub.presenters.DescribePresenter;
+import com.example.pub.utilities.Constants;
+import com.example.pub.utilities.FetchAddressIntentService;
+import com.example.pub.utilities.FullSizeDialog;
+import com.example.pub.utilities.GpsSettingsDialog;
+import com.example.pub.utilities.PhotoDialog;
 import com.example.pub.views.DescribeView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -104,7 +105,11 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
         mPhoto = findViewById(R.id.photo);
         mPhoto.setOnClickListener(v -> {
             if(mPhoto.getDrawable() != null) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(currentPhotoPath)));
+                DialogFragment dialogFragment = new FullSizeDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("image", currentPhotoPath);
+                dialogFragment.setArguments(bundle);
+                dialogFragment.show(getSupportFragmentManager(), "full_image");
             }
     });
 
@@ -251,11 +256,12 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
     @Override
     public void setLocation(String oldLocation){
         MyLocation.setText(oldLocation);
-        LocationButton.setEnabled(false);
+        LocationButton.setVisibility(View.GONE);
     }
 
     @Override
     public void loadPhoto(String uri) {
+        mPhoto.setVisibility(View.VISIBLE);
         mPhoto.setImageURI(Uri.parse((uri)));
         currentPhotoPath = uri;
         TakePhotoButton.setVisibility(View.GONE);
@@ -327,6 +333,7 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                mPhoto.setVisibility(View.VISIBLE);
                 mPhoto.setImageURI(Uri.parse(currentPhotoPath));
                 galleryAddPic();
                 TakePhotoButton.setVisibility(View.GONE);
@@ -334,7 +341,9 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
                 presenter.detailCategory((String) data.getSerializableExtra("category"));
             }
             else if (requestCode == REQUEST_GALLERY_PHOTO){
+                mPhoto.setVisibility(View.VISIBLE);
                 currentPhotoPath = String.valueOf(data.getData());
+                TakePhotoButton.setVisibility(View.GONE);
                 mPhoto.setImageURI(Uri.parse(currentPhotoPath));
             }
         }

@@ -8,8 +8,8 @@ import android.widget.EditText;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.example.pub.Models.Budget;
-import com.example.pub.Presenters.AddBudgetPresenter;
+import com.example.pub.models.Budget;
+import com.example.pub.presenters.AddBudgetPresenter;
 import com.example.pub.R;
 import com.example.pub.views.AddBudgetView;
 

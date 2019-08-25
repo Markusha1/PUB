@@ -1,7 +1,7 @@
 package com.example.pub.views;
 
 import com.arellomobile.mvp.MvpView;
-import com.example.pub.Models.Detail;
+import com.example.pub.models.Detail;
 
 public interface DescribeView extends MvpView {
     void setText(String text);
