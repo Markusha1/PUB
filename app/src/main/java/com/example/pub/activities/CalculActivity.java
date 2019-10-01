@@ -71,6 +71,7 @@ public class CalculActivity extends MvpAppCompatActivity implements CalculateVie
         return super.onOptionsItemSelected(item);
     }
 
+    //позволяет добавить доход(расход)
     @Override
     public void showPlus() {
         flag = true;
@@ -91,6 +92,7 @@ public class CalculActivity extends MvpAppCompatActivity implements CalculateVie
         ConsumeButton.setBackgroundColor(getColor(R.color.disable_button));
     }
 
+    //добавляет в список деталей
     @Override
     public void addDetail(Detail detail) {
         Intent intent = new Intent();
@@ -99,6 +101,7 @@ public class CalculActivity extends MvpAppCompatActivity implements CalculateVie
         finish();
     }
 
+    //окрывает экран с описанием детали
     @Override
     public void openDescription(Detail detail) {
         Intent i = new Intent(this, DescribeActivity.class);
