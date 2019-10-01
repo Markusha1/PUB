@@ -13,7 +13,7 @@ import com.example.pub.presenters.CategoryPresenter;
 import com.example.pub.recyclerView.CategoryAdapter;
 import com.example.pub.views.CategoryView;
 
-
+//экран с категориями расходов(доходов)
 public class CategoryActivity extends MvpAppCompatActivity implements CategoryView {
     private RecyclerView recyclerView;
     private CategoryAdapter adapter;

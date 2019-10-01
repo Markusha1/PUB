@@ -18,13 +18,13 @@ import dagger.Provides;
 public class RoomModule {
 
     @Singleton
-    @Provides
-    AppDataBase providesAppDataBase(Context context) {
-        return Room.databaseBuilder(context, AppDataBase.class, "budget")
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build();
-    }
+@Provides
+AppDataBase providesAppDataBase(Context context) {
+    return Room.databaseBuilder(context, AppDataBase.class, "budget")
+            .fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build();
+}
 
     @Singleton
     @Provides

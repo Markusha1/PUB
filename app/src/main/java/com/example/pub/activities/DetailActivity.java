@@ -121,6 +121,7 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
                 String label = (String) statistics(list).keySet().toArray()[i];
                 categories.add(new PieEntry((Float) statistics(list).get(statistics(list).keySet().toArray()[i]), label));
             }
+            pieChart.setCenterText("");
             PieDataSet dataSet = new PieDataSet(categories, "Категории");
             dataSet.setSliceSpace(3);
             dataSet.setSelectionShift(5);

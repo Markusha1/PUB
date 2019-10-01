@@ -66,12 +66,15 @@ public class BudgetsActivity extends MvpAppCompatActivity implements BudgetListV
 
     public void onResume(){
         super.onResume();
+        presenter.checkList();
         adapter.setList(presenter.loadBudgets());
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
     }
 
+
+    //открвает экран с деталями бюджета
     @Override
     public void openDetail(Budget budget) {
         Intent intent = new Intent(this, DetailActivity.class);
@@ -86,6 +89,7 @@ public class BudgetsActivity extends MvpAppCompatActivity implements BudgetListV
         adapter.notifyDataSetChanged();
     }
 
+    //открывает экран создания бюджета
     @Override
     public void goToAddScreen(Budget budget) {
         Intent intent = new Intent(this, NewBudgetActivity.class);
@@ -93,6 +97,7 @@ public class BudgetsActivity extends MvpAppCompatActivity implements BudgetListV
         startActivityForResult(intent,REQUEST_BUDGET);
     }
 
+    //пока эта функция разрабатывается
     @Override
     public void goToNewGoal(Goal goal){
         Intent intent = new Intent(this, CategoryActivity.class);
@@ -100,6 +105,7 @@ public class BudgetsActivity extends MvpAppCompatActivity implements BudgetListV
         startActivityForResult(intent,REQUEST_BUDGET);
     }
 
+    //открывет экран изменения бюджета
     @Override
     public void edit(Budget budget) {
         Intent i = new Intent(this, NewBudgetActivity.class);
@@ -107,6 +113,7 @@ public class BudgetsActivity extends MvpAppCompatActivity implements BudgetListV
         startActivityForResult(i, REQUEST_BUDGET);
     }
 
+    //показывает картинку пустого списка, если тот таковым является
     @Override
     public void showEmptyList(){
         picture.setVisibility(View.VISIBLE);

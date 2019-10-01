@@ -63,19 +63,24 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.pub.BuildConfig.APPLICATION_ID;
 
 
 public class DescribeActivity extends MvpAppCompatActivity implements DescribeView, PhotoDialog.PhotoClickListener {
-    private Button DateButton;
-    private Button TimeButton;
-    private Button TakePhotoButton, LocationButton;
-    private Button CategoryButton;
-    private TextView MyLocation;
+    @BindView(R.id.date_picker) private Button DateButton;
+    @BindView(R.id.time_picker) private Button TimeButton;
+    @BindView(R.id.camera_button) private Button TakePhotoButton;
+    @BindView(R.id.add_location) private Button LocationButton;
+    @BindView(R.id.category_button) private Button CategoryButton;
+    @BindView(R.id.location) private TextView MyLocation;
+    @BindView(R.id.description) private EditText DescribEditText;
+    @BindView(R.id.summ)private EditText SummText;
+    @BindView(R.id.photo) private ImageView mPhoto;
     private String DescrText;
-    private EditText DescribEditText, SummText;
     private String Money;
-    private ImageView mPhoto;
     private String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     static final int REQUEST_IMAGE_CAPTURE = 100;
     static final int REQUEST_GALLERY_PHOTO = 23;
@@ -98,11 +103,11 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
         DescribeComponent component = DaggerDescribeComponent.builder().appModule(new AppModule(this)).descriptionModule(new DescriptionModule()).build();
         component.inject(this);
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
         setContentView(R.layout.description_detail);
         client = LocationServices.getFusedLocationProviderClient(this);
         presenter.initDetail((Detail) getIntent().getSerializableExtra("describedetail"));
         File photoFile = presenter.getPhotoFile(this);
-        mPhoto = findViewById(R.id.photo);
         mPhoto.setOnClickListener(v -> {
             if(mPhoto.getDrawable() != null) {
                 DialogFragment dialogFragment = new FullSizeDialog();
@@ -112,10 +117,6 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
                 dialogFragment.show(getSupportFragmentManager(), "full_image");
             }
     });
-
-        MyLocation = findViewById(R.id.location);
-        TakePhotoButton = findViewById(R.id.camera_button);
-        LocationButton = findViewById(R.id.add_location);
         LocationButton.setOnClickListener(v -> checkLocationPermission());
         boolean canTakePhoto = photoFile != null &&
                 new Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(getApplication().getPackageManager()) != null;
@@ -137,7 +138,6 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
             }
         });
 
-        CategoryButton = findViewById(R.id.category_button);
         CategoryButton.setOnClickListener(g -> {
             Intent intent = new Intent(this, CategoryActivity.class);
             startActivityForResult(intent, REQUEST_CATEGORY);
@@ -160,9 +160,7 @@ public class DescribeActivity extends MvpAppCompatActivity implements DescribeVi
             }
         });
 
-        DateButton = findViewById(R.id.date_picker);
         DateButton.setOnClickListener(g -> presenter.showDatePicker());
-        TimeButton = findViewById(R.id.time_picker);
         TimeButton.setOnClickListener(g -> presenter.showTimePicker());
         locationCallback = new LocationCallback() {
             @Override
