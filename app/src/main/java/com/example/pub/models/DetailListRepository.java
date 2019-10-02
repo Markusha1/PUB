@@ -30,11 +30,6 @@ public class DetailListRepository implements DetailRepository{
     }
 
     @Override
-    public Budget getDetail(String id) {
-        return null;
-    }
-
-    @Override
     public List<Detail> getAll(String id) {
         return detailDao.getAll(id);
     }
