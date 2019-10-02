@@ -14,7 +14,7 @@ import java.io.File;
 @InjectViewState
 public class DescribePresenter extends MvpPresenter<DescribeView> {
     private Detail mDetail;
-
+    //устанавливает новые или уже существующие параметры описания
     public void initDetail(Detail detail){
         mDetail = detail;
         if(mDetail.getDescription() != null) getViewState().setText(mDetail.getDescription());
@@ -25,7 +25,7 @@ public class DescribePresenter extends MvpPresenter<DescribeView> {
         if(!mDetail.getMyLocation().equals("")) getViewState().setLocation(mDetail.getMyLocation());
         if(!mDetail.getPhotoPath().equals("")) getViewState().loadPhoto(mDetail.getPhotoPath());
     }
-
+    //принять изменения в описании
     public void onApplyClick(String descr, String category, String date, String time, String money, String location, String photoPath){
         mDetail.setDate(date);
         mDetail.setTime(time);
@@ -40,32 +40,32 @@ public class DescribePresenter extends MvpPresenter<DescribeView> {
         getViewState().sendResult(mDetail);
     }
 
-
+    //показать календарь
     public void showDatePicker(){
         getViewState().showCalendar();
     }
-
+    //показать часы
     public void showTimePicker(){
         getViewState().showClock();
     }
-
+    //открывает выбор категории
     public void detailCategory(String category){
         mDetail.setCategory(category);
         getViewState().setCategoryName(category);
     }
-
+    //включить камеру
     public void cameraOnClick(){
         getViewState().takePhoto(mDetail);
     }
-
+    //открыть галерею
     public void gallaryOnClick(){
         getViewState().takePhotoFromGallery();
     }
-
+    //получить координаты
     public void geoOnClick(){
         getViewState().getLocation();
     }
-
+    //получить уникальное имя файла
     public File getPhotoFile(Context context) {
         File filesDir = context.getFilesDir();
         return new File(filesDir, mDetail.getPhotoFileName());

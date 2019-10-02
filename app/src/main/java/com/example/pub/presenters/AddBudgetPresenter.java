@@ -23,6 +23,7 @@ public class AddBudgetPresenter extends MvpPresenter<AddBudgetView> {
         }
     }
 
+    //Метод для изменения существующего Бюджета
     public void getBudget(String title, String money){
         if (title.length() == 0){
             getViewState().showErrorTittle();

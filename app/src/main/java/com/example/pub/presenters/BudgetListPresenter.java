@@ -35,7 +35,7 @@ public class BudgetListPresenter extends MvpPresenter<BudgetListView> {
         Budget mBudget = new Budget();
         getViewState().goToAddScreen(mBudget);
     }
-
+    //Функция в разработке
     public void newGoalScreen(){
         Goal goal = new Goal();
         getViewState().goToNewGoal(goal);
